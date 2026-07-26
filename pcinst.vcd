@@ -1,0 +1,227 @@
+$date
+	Thu May 28 13:32:13 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module pc_inst_tb $end
+$var wire 32 ! pc [31:0] $end
+$var wire 32 " instr [31:0] $end
+$var reg 1 # clk $end
+$var reg 1 $ reset $end
+$scope module uut $end
+$var wire 1 # clk $end
+$var wire 1 $ reset $end
+$var wire 5 % rs2 [4:0] $end
+$var wire 5 & rs1 [4:0] $end
+$var wire 5 ' rd [4:0] $end
+$var wire 32 ( pc_next [31:0] $end
+$var wire 32 ) pc [31:0] $end
+$var wire 7 * op [6:0] $end
+$var wire 32 + instr [31:0] $end
+$var wire 7 , funct7 [6:0] $end
+$var wire 3 - funct3 [2:0] $end
+$scope module instr_mem $end
+$var wire 32 . instr [31:0] $end
+$var wire 32 / pc_addr [31:0] $end
+$upscope $end
+$scope module program_counter $end
+$var wire 1 # clk $end
+$var wire 32 0 pc_next [31:0] $end
+$var wire 1 $ reset $end
+$var reg 32 1 pc [31:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx 1
+bx 0
+bx /
+bx .
+bx -
+bx ,
+bx +
+bx *
+bx )
+bx (
+bx '
+bx &
+bx %
+1$
+0#
+bx "
+bx !
+$end
+#5
+b1 '
+b1 %
+b0 &
+b0 ,
+b0 -
+b10011 *
+b100000000000010010011 "
+b100000000000010010011 +
+b100000000000010010011 .
+b100 (
+b100 0
+b0 !
+b0 )
+b0 /
+b0 1
+1#
+#10
+0#
+0$
+#15
+b10 '
+b10000 %
+b1000000000000000100010011 "
+b1000000000000000100010011 +
+b1000000000000000100010011 .
+b1000 (
+b1000 0
+b100 !
+b100 )
+b100 /
+b100 1
+1#
+#20
+0#
+#25
+b1110 '
+b1 %
+b10 &
+b110011 *
+b100010000011100110011 "
+b100010000011100110011 +
+b100010000011100110011 .
+b1100 (
+b1100 0
+b1000 !
+b1000 )
+b1000 /
+b1000 1
+1#
+#30
+0#
+#35
+b1111 '
+b100000 ,
+b1000000000100010000011110110011 "
+b1000000000100010000011110110011 +
+b1000000000100010000011110110011 .
+b10000 (
+b10000 0
+b1100 !
+b1100 )
+b1100 /
+b1100 1
+1#
+#40
+0#
+#45
+b10110 '
+b0 ,
+b110 -
+b100010110101100110011 "
+b100010110101100110011 +
+b100010110101100110011 .
+b10100 (
+b10100 0
+b10000 !
+b10000 )
+b10000 /
+b10000 1
+1#
+#50
+0#
+#55
+b10111 '
+b111 -
+b100010111101110110011 "
+b100010111101110110011 +
+b100010111101110110011 .
+b11000 (
+b11000 0
+b10100 !
+b10100 )
+b10100 /
+b10100 1
+1#
+#60
+0#
+#65
+b0 '
+b0 %
+b0 &
+b0 -
+b10011 *
+b10011 "
+b10011 +
+b10011 .
+b11100 (
+b11100 0
+b11000 !
+b11000 )
+b11000 /
+b11000 1
+1#
+#70
+0#
+#75
+b100000 (
+b100000 0
+b11100 !
+b11100 )
+b11100 /
+b11100 1
+1#
+#80
+0#
+#85
+b100100 (
+b100100 0
+b100000 !
+b100000 )
+b100000 /
+b100000 1
+1#
+#90
+0#
+#95
+bx '
+bx %
+bx &
+bx ,
+bx -
+bx *
+bx "
+bx +
+bx .
+b101000 (
+b101000 0
+b100100 !
+b100100 )
+b100100 /
+b100100 1
+1#
+#100
+0#
+#105
+b101100 (
+b101100 0
+b101000 !
+b101000 )
+b101000 /
+b101000 1
+1#
+#110
+0#

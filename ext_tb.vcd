@@ -1,0 +1,43 @@
+$date
+	Tue Jun 02 13:31:00 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module extender_tb $end
+$var wire 32 ! imm_ext [31:0] $end
+$var reg 12 " imm [11:0] $end
+$var reg 2 # immsrc [1:0] $end
+$scope module uut $end
+$var wire 12 $ imm [11:0] $end
+$var wire 2 % immsrc [1:0] $end
+$var reg 32 & imm_ext [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b1 &
+b0 %
+b1 $
+b0 #
+b1 "
+b1 !
+$end
+#10
+b10 !
+b10 &
+b10 "
+b10 $
+#20
+b11111111111111111111111111111110 !
+b11111111111111111111111111111110 &
+b111111111110 "
+b111111111110 $
+#40

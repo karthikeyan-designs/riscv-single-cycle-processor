@@ -1,0 +1,79 @@
+$date
+	Sat May 30 20:16:12 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module alu_ctrl_tb $end
+$var wire 1 ! regwrite $end
+$var wire 2 " immsrc [1:0] $end
+$var wire 2 # aluop [1:0] $end
+$var wire 3 $ aluctrl [2:0] $end
+$var reg 3 % funct3 [2:0] $end
+$var reg 7 & funct7 [6:0] $end
+$var reg 7 ' op [6:0] $end
+$scope module ad $end
+$var wire 3 ( funct3 [2:0] $end
+$var wire 7 ) funct7 [6:0] $end
+$var wire 7 * op [6:0] $end
+$var wire 2 + aluop [1:0] $end
+$var reg 3 , aluctrl [2:0] $end
+$upscope $end
+$scope module md $end
+$var wire 7 - op [6:0] $end
+$var reg 2 . aluop [1:0] $end
+$var reg 2 / immsrc [1:0] $end
+$var reg 1 ! regwrite $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 /
+b10 .
+b110011 -
+b0 ,
+b10 +
+b110011 *
+b0 )
+b0 (
+b110011 '
+b0 &
+b0 %
+b0 $
+b10 #
+b0 "
+1!
+$end
+#10
+b1 $
+b1 ,
+b100000 &
+b100000 )
+#20
+b10 $
+b10 ,
+b0 &
+b0 )
+b111 %
+b111 (
+#30
+b11 $
+b11 ,
+b110 %
+b110 (
+#40
+b0 $
+b0 ,
+b0 %
+b0 (
+b10011 '
+b10011 *
+b10011 -
+#70
