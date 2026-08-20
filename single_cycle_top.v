@@ -24,7 +24,7 @@ module single_cycle_top(
     output [31:0] mux_output // output from result_mux, which is the data to write back to register file
 );
 
-
+wire result_src;
 wire memwrite; // control signal for memory write
 wire regwrite; // control signal for register write
 wire [31:0] pc_next;
@@ -65,6 +65,8 @@ main_decoder main_dec(
     .regwrite(WE3),
     .immsrc(immsrc),
     .alusrc(alusrc),
+    .result_src(result_src),
+    .memwrite(memwrite),
     .aluop(aluop)
 );
 alu_decoder alu_dec(

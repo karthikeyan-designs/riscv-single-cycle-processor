@@ -11,7 +11,8 @@ module instr_memory(
 
     // Initialize program
     initial begin
-        $readmemh("itype_instr.hex",mem);
+        $readmemh("load_word_itype.hex",mem);
+       // $readmemh("itype_instr.hex",mem);
     end
 
-endmodule
+endmodule   

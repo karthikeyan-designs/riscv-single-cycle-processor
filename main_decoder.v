@@ -1,8 +1,8 @@
         //////// MAIN DECODER ////////
         module main_decoder(
         input [6:0] op,
-        input memwrite,
-        input [1:0] result_src,
+        output reg memwrite,
+        output reg [1:0] result_src,
         output reg [1:0] immsrc,
         output reg [1:0] aluop,
         

@@ -1,0 +1,7 @@
+// I type Load Word (LW)
+
+// lw x5, 8(x2)     → x5 = memory[100 + 8]  = memory[108] = 10
+00812283
+
+// lw x6, 20(x2)    → x6 = memory[100 + 20] = memory[120] = 7
+01412303

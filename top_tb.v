@@ -42,7 +42,7 @@ initial begin
 end
 initial begin
     $monitor(
-    "T=%0t PC=%h INSTR=%h rs1=%d rs2=%d rd=%d RD1=%d RD2=%d ALUCTRL=%b RESULT=%d SRCB=%d",
+    "T=%0t PC=%h INSTR=%h rs1=%d rs2=%d rd=%d RD1=%d RD2=%d ALUCTRL=%b RESULT=%d SRCB=%d Result_mux=%d",
     $time, pc, instr, rs1, rs2, rd, RD1, RD2, aluctrl, result, srcb
     );
 end

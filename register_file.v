@@ -30,11 +30,11 @@ always@(*) begin
     end
     initial begin
     // for testing: initialize registers
-    registers[0]=32'h0; // x0 = 0
-    registers[1]=32'h1; // x1 = 1
-    registers[2]=32'h0; // x2 = 2
-    registers[3]=32'h0; // x3 = 3
-    registers[4]=32'h0; // x4 = 4
+    registers[0]=32'd0; // x0 = 0
+    registers[1]=32'd1; // x1 = 1
+    registers[2]=32'd100; // x2 = 2
+    registers[3]=32'd0; // x3 = 3
+    registers[4]=32'd0; // x4 = 4
     end
 
 
