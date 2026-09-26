@@ -1,0 +1,12 @@
+fff00593    // addi x11, x0, -1    // x11 =-1
+00c58863    // beq x11, x12, 16    // PC=16 
+
+00100393    // addi x7, x0, 1      // x7 = 1
+00708463    // beq  x1, x7, 8      // if x1 == x7, jump to PC+8
+06300413    // addi x8, x0, 99     // PC=8, should be skipped
+01400493    // addi x9, x0, 20     // PC=12, branch target
+// beqnot equal
+//00200393    // addi x7, x0, 2      // x7 = 2
+//00708463    // beq  x1, x7, 8      // x1=1, x7=2 -> NOT equal, branch not taken
+//06300413    // addi x8, x0, 99     // PC=8, should execute
+//01400493    // addi x9, x0, 20     // PC=12, should execute

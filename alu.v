@@ -2,8 +2,11 @@ module alu(
     input [31:0] a,
     input [31:0] b,
     input [2:0] aluctrl,
+    output zero,
     output reg [31:0] result
 );
+assign zero = (result == 32'b0); // used by PCSrc for branch instructions
+
 always@(*) begin
 case(aluctrl)
 3'b000: result= a+b; // add

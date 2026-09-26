@@ -1,0 +1,19 @@
+// S type Store Word (SW) test
+// x1 = 1, x2 = 100 (pre-initialized in register_file.v)
+
+// sw x1, 12(x2)   -> memory[100+12] = memory[112] = x1 = 1
+00112623
+
+// sw x1, 16(x2)   -> memory[100+16] = memory[116] = x1 = 1
+00112823
+
+// lw x5, 12(x2)   -> x5 = memory[112]  (should read back 1)
+00c12283
+
+// lw x6, 16(x2)   -> x6 = memory[116]  (should read back 1)
+01012303
+// SW negative offset test
+// x1 = 1, x2 = 100
+
+fe112e23   // sw x1, -4(x2) -> memory[96] = 1
+ffc12283   // lw x5, -4(x2) -> x5 = 1

@@ -2,8 +2,7 @@ module single_cycle_top(
     input clk,
     input reset,
    
-    
-    output [31:0] pc, // testing
+  
     output [31:0] instr, // testing
 
     output [6:0] op,
@@ -21,30 +20,51 @@ module single_cycle_top(
     output [31:0] pc_plus_4, // output from pc_inc
     output [1:0] result_src, // control signal for result_mux
     output [31:0] result,
+    output [31:0] pc,
+    output zero, // output from ALU
     output [31:0] mux_output // output from result_mux, which is the data to write back to register file
 );
+wire [31:0] PC_target;
+wire pc_src;
 
-wire result_src;
+
 wire memwrite; // control signal for memory write
 wire regwrite; // control signal for register write
 wire [31:0] pc_next;
 wire [1:0] aluop;
-wire [31:0] WD3; // write data for register file
+//wire [31:0] WD3; // write data for register file
 
 wire [1:0] immsrc; // control signal for immediate source
 wire alusrc; // control signal for ALU source
-wire [31:0] imm_ext; // output from extender
+wire signed  [31:0] imm_ext; // output from extender
 wire [31:0] RD2; // output from register file
+wire [31:0] PC_NEXT; // output from pc_mux
+
+wire signed [11:0] imm_s;
+wire signed [12:0] imm_b;
+wire branch; // control signal for branch instructions
 
 pc program_counter(
     .clk(clk),
     .reset(reset),
-    .pc_next(pc_plus_4),
+    .pc_next(pc_next),
     .pc(pc)
 );
 pc_inc pc_incrementer(
     .pc(pc),
     .pc_plus_4(pc_plus_4)
+);
+pc_target dut_pc_target(
+    .pc(pc),
+    .imm_ext(imm_ext),
+    .PC_target(PC_target)
+
+);
+pc_mux pc_mux_unit(
+    .pc_plus_4(pc_plus_4),
+    .PC_target(PC_target),
+    .pc_src(pc_src),
+    .PC_NEXT(pc_next)
 );
 instr_memory instr_mem(
     .pc_addr(pc), 
@@ -67,6 +87,7 @@ main_decoder main_dec(
     .alusrc(alusrc),
     .result_src(result_src),
     .memwrite(memwrite),
+    .branch(branch),
     .aluop(aluop)
 );
 alu_decoder alu_dec(
@@ -81,12 +102,20 @@ alu alu_unit(
     .a(RD1),
     .b(srcb), // Output from mux_srcb
     .aluctrl(aluctrl),
+    .zero(zero),//
     .result(result)
 );
-extender  imm_extender_uut(
-    .imm(instr[31:20]), // Immediate field for I-type instructions
-    .immsrc(immsrc), // Control signal to select immediate type
-    .imm_ext(imm_ext) // Output of the extender 
+and_pc_src and_pc(
+    .zero(zero), // Output from ALU (not connected in this snippet)
+    .branch(branch), // Check if instruction is a branch
+    .pc_src(pc_src)
+);
+extender imm_extender_uut(
+    .imm_i(instr[31:20]), // Immediate for I-type instructions
+    .imm_s(imm_s), // Immediate for S-type instructions
+    .immsrc(immsrc),
+    .imm_b(imm_b), // Immediate for B-type instructions
+    .imm_ext(imm_ext)
 );
 mux_srcb mux_srcb_unit(
     .RD2(RD2),
@@ -106,10 +135,12 @@ result_mux write_back_mux(
     .read_data(read_data), // Data read from memory
     .pc_plus_4(pc_plus_4), // Next PC value
     .result_src(result_src), // Control signal to select between ALU result and memory data
-    .mux_output(WD3) // Output of the mux, which is the data to write back to register file
+    .mux_output(mux_output) // Output of the mux, which is the data to write back to register file
 );
 
 
+assign imm_s = {instr[31:25], instr[11:7]};
+assign imm_b ={instr[31],instr[7],instr[30:25],instr[11:8],1'b0}; // B-type immediate
 
 
 assign op = instr[6:0];

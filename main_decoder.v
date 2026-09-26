@@ -7,6 +7,7 @@
         output reg [1:0] aluop,
         
         output reg regwrite,
+        output reg branch,
         output reg alusrc
         );
         always@(*) begin
@@ -18,6 +19,7 @@
         alusrc=1'b0; // ALU source is 0 for R-type
         memwrite=0; // No memory write for R-type
         result_src=2'b00; // ALU result is written back to register
+        branch=0; // No branch for R-type
         end
 
         7'b0010011: begin // I-type
@@ -27,6 +29,7 @@
         alusrc=1'b1; // ALU source is immediate for I-type
         memwrite=0; // No memory write for I-type
         result_src=2'b00; // ALU result is written back to register
+        branch=0; // No branch for I-type
         end
         7'b0000011: begin // Load
         aluop=2'b00; // ALU performs addition for address calculation
@@ -35,6 +38,25 @@
         alusrc=1'b1; // ALU source is immediate for Load instructions
         memwrite=0; // No memory write for Load instructions
         result_src=2'b01; // Load result is written back to register
+        branch=0; // No branch for Load instructions
+        end
+        7'b0100011: begin // S type (Store) sw
+        aluop=2'b00; // ALU performs addition for address calculation
+        immsrc=2'b01; 
+        regwrite=0;
+        alusrc=1'b1;
+        memwrite=1; // Enable memory write for Store instructions
+        result_src=2'b00; // actually x don't care 
+        branch=0; // No branch for Store instructions
+        end
+        7'b1100011: begin  // Btype (Branch)
+        aluop=2'b01; 
+        immsrc=2'b10;
+        regwrite=0;
+        alusrc=1'b0;
+        memwrite=0;
+        result_src=2'b00; // actually x don't care 
+        branch=1; // Branch for B-type instructions
         end
     
         default: begin
@@ -44,6 +66,7 @@
             alusrc= 1'b0;
             memwrite=0;
             result_src=2'b00;
+            branch=0;
         end
 
         endcase

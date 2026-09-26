@@ -34,7 +34,8 @@ always@(*) begin
     registers[1]=32'd1; // x1 = 1
     registers[2]=32'd100; // x2 = 2
     registers[3]=32'd0; // x3 = 3
-    registers[4]=32'd0; // x4 = 4
+    registers[4]=32'd7; // x4 = 4
+    registers[12]=-32'sd1; // x12 = -1
     end
 
 

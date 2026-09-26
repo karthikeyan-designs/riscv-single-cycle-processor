@@ -1,4 +1,6 @@
-module top_tb;
+`timescale 1ns/1ps
+module event_driven_top_tb;
+
 reg clk;
 reg reset;
 wire [31:0] pc;
@@ -43,14 +45,16 @@ single_cycle_top uut(
     .result_src(result_src),
     .mux_output(mux_output)
 );
+
 initial begin
     $dumpfile("top_tb.vcd");
-    $dumpvars(0, top_tb);
+    $dumpvars(0, event_driven_top_tb);
 end
 ///////////////beq test////////////////////////
 initial begin
-$monitor("time=%0t | PC=%0d | instr=%h | x1=%0d | x7=%0d | imm=%0d | result=%0d | zero=%b | branch=%b | pc_src=%b",
+$monitor("time=%0t| reset=%b | PC=%0d | instr=%h | x1=%0d | x7=%0d | imm=%0d | result=%0d | zero=%b | branch=%b | pc_src=%b",
          $time,
+         reset,
          pc,
          instr,
          uut.reg_file.registers[1],
@@ -62,37 +66,26 @@ $monitor("time=%0t | PC=%0d | instr=%h | x1=%0d | x7=%0d | imm=%0d | result=%0d 
          uut.pc_src);
 end
 
+always #5 clk = ~clk; // clock with period of 10 time 
+
 // initial begin
-//     $monitor(
-//     "T=%0t PC=%h INSTR=%h rs1=%d rs2=%d rd=%d RD1=%d RD2=%d ALUCTRL=%b RESULT=%d SRCB=%d READ_DATA=%d RESULT_SRC=%b WE3=%b PC_PLUS_4=%h",
-//     $time,
-//     pc,
-//     instr,
-//     rs1,
-//     rs2,
-//     rd,
-//     RD1,
-//     RD2,
-//     aluctrl,
-//     result,
-//     srcb,
-//     read_data,
-//     result_src,
-//     WE3,
-//     pc_plus_4
-//     );
+//     repeat(3) @(posedge clk);
+//     if(uut.reg_file.registers[1]==uut.reg_file.registers[7]) begin
+//         $display("BEQ instruction executed successfully");
+//     end else begin
+//         $display("BEQ instruction failed");
+//     end
 // end
-
-
-
 
 initial begin
     clk = 0;
     reset = 1;
-    #10 reset = 0; // release reset after 10 time units
+ repeat(2) @(posedge clk);
+ reset=0;
+
+repeat(10) @(posedge clk);  
+$finish;
+
 end
-always #5 clk = ~clk; // clock with period of 10 time 
-initial begin
-    #100 $finish; // end simulation after 100 time units
-end
+
 endmodule
