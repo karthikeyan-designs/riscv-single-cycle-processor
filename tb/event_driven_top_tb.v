@@ -52,17 +52,18 @@ initial begin
 end
 ///////////////beq test////////////////////////
 initial begin
-$monitor("time=%0t| reset=%b | PC=%0d | instr=%h | x1=%0d | x7=%0d | imm=%0d | result=%0d | zero=%b | branch=%b | pc_src=%b",
+$monitor("time=%0t| reset=%b | PC=%0d | instr=%h | x1=%0d | x6=%0d | imm=%0d | result=%0d | zero=%b | branch=%b | pc_src=%b | jump=%b",
          $time,
          reset,
          pc,
          instr,
          uut.reg_file.registers[1],
-         uut.reg_file.registers[7],
+         uut.reg_file.registers[6],
          uut.imm_ext,
          uut.result,
          uut.zero,
          uut.branch,
+         uut.jump,
          uut.pc_src);
 end
 
@@ -83,7 +84,7 @@ initial begin
  repeat(2) @(posedge clk);
  reset=0;
 
-repeat(10) @(posedge clk);  
+repeat(15) @(posedge clk);  
 $finish;
 
 end

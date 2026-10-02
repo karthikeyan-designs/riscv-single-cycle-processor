@@ -42,7 +42,10 @@ wire [31:0] PC_NEXT; // output from pc_mux
 
 wire signed [11:0] imm_s;
 wire signed [12:0] imm_b;
+wire signed [20:0] imm_j;
 wire branch; // control signal for branch instructions
+wire jump; // jump for jal 
+wire branch_taken; 
 
 pc program_counter(
     .clk(clk),
@@ -63,7 +66,7 @@ pc_target dut_pc_target(
 pc_mux pc_mux_unit(
     .pc_plus_4(pc_plus_4),
     .PC_target(PC_target),
-    .pc_src(pc_src),
+    .pc_src(branch_taken),
     .PC_NEXT(pc_next)
 );
 instr_memory instr_mem(
@@ -88,6 +91,7 @@ main_decoder main_dec(
     .result_src(result_src),
     .memwrite(memwrite),
     .branch(branch),
+    .jump(jump),
     .aluop(aluop)
 );
 alu_decoder alu_dec(
@@ -110,11 +114,18 @@ and_pc_src and_pc(
     .branch(branch), // Check if instruction is a branch
     .pc_src(pc_src)
 );
+
+or_pc_src or_pc(
+    .and_pc_src(pc_src),
+    .jump(jump),
+    .branch_taken(branch_taken)
+);
 extender imm_extender_uut(
     .imm_i(instr[31:20]), // Immediate for I-type instructions
     .imm_s(imm_s), // Immediate for S-type instructions
     .immsrc(immsrc),
     .imm_b(imm_b), // Immediate for B-type instructions
+    .imm_j(imm_j), // Immediate for J-type instructions
     .imm_ext(imm_ext)
 );
 mux_srcb mux_srcb_unit(
@@ -141,7 +152,13 @@ result_mux write_back_mux(
 
 assign imm_s = {instr[31:25], instr[11:7]};
 assign imm_b ={instr[31],instr[7],instr[30:25],instr[11:8],1'b0}; // B-type immediate
-
+assign imm_j = {
+    instr[31],
+    instr[19:12],
+    instr[20],
+    instr[30:21],
+    1'b0
+};
 
 assign op = instr[6:0];
 assign funct3 = instr[14:12];
