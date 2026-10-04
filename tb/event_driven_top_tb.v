@@ -52,19 +52,21 @@ initial begin
 end
 ///////////////beq test////////////////////////
 initial begin
-$monitor("time=%0t| reset=%b | PC=%0d | instr=%h | x1=%0d | x6=%0d | imm=%0d | result=%0d | zero=%b | branch=%b | pc_src=%b | jump=%b",
+$monitor("time=%0t| reset=%b | PC=%0d | instr=%h | x1=%0d | x2=%0d | x3=%0d | imm=%0d | result=%0d | zero=%b | branch=%b | pc_src=%b | jump=%b | jalr=%b",
          $time,
          reset,
          pc,
          instr,
          uut.reg_file.registers[1],
-         uut.reg_file.registers[6],
+         uut.reg_file.registers[2],
+         uut.reg_file.registers[3],
          uut.imm_ext,
          uut.result,
          uut.zero,
          uut.branch,
          uut.jump,
-         uut.pc_src);
+         uut.pc_src,
+         uut.jalr);
 end
 
 always #5 clk = ~clk; // clock with period of 10 time 

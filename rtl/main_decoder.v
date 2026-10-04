@@ -9,6 +9,7 @@
         output reg regwrite,
         output reg branch,
         output reg jump,
+        output reg jalr,
         output reg alusrc
         );
         always@(*) begin
@@ -22,6 +23,7 @@
         result_src=2'b00; // ALU result is written back to register
         branch=0; // No branch for R-type
         jump=0;
+        jalr=0;
 
         end
 
@@ -34,6 +36,7 @@
         result_src=2'b00; // ALU result is written back to register
         branch=0; // No branch for I-type
         jump=0;
+        jalr=0;
         end
         7'b0000011: begin // Load
         aluop=2'b00; // ALU performs addition for address calculation
@@ -44,6 +47,7 @@
         result_src=2'b01; // Load result is written back to register
         branch=0; // No branch for Load instructions
         jump=0;
+        jalr=0;
         end
         7'b0100011: begin // S type (Store) sw
         aluop=2'b00; // ALU performs addition for address calculation
@@ -54,6 +58,7 @@
         result_src=2'b00; // actually x don't care 
         branch=0; // No branch for Store instructions
         jump=0;
+        jalr=0;
         end
         7'b1100011: begin  // Btype (Branch)
         aluop=2'b01; 
@@ -64,6 +69,7 @@
         result_src=2'b00; // actually x don't care 
         branch=1; // Branch for B-type instructions
         jump=0;
+        jalr=0;
         end
 
         7'b1101111: begin // J Type (JAL)
@@ -75,7 +81,20 @@
         result_src=2'b10;
         branch=0;
         jump=1;   /// jal 
+        jalr=0;
 
+        end
+
+       7'b1100111: begin  // JALR
+        aluop      = 2'b00;  // ADD: RD1 + immediate
+        immsrc     = 2'b00;  // I-type immediate
+        regwrite   = 1;
+        alusrc     = 1'b1;   // ALU input B = immediate
+        memwrite   = 0;
+        result_src = 2'b10;  // PC + 4 -> rd
+        branch     = 0;
+        jump       = 0;
+        jalr       = 1;      // Enable JALR
         end
     
         default: begin
@@ -87,6 +106,7 @@
             result_src=2'b00;
             branch=0;
             jump=0;
+            jalr=0;
         end
 
         endcase

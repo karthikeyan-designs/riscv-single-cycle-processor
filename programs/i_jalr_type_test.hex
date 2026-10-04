@@ -1,0 +1,37 @@
+// Test 5
+
+00D00093    // ADDI x1, x0, 13       // PC=0  → x1=13
+00008167    // JALR x2, 0(x1)        // PC=4  → target=13 & ~1 = 12
+00000013    // NOP                   // PC=8  → should be skipped
+02A00193    // ADDI x3, x0, 42       // PC=12 → should execute
+
+//Test 4
+//00C00093    // ADDI x1, x0, 12
+//00808167    // JALR x2, 8(x1)
+//00000013    // NOP
+//00000013    // NOP
+//00000013    // NOP
+//01000193    // ADDI x3, x0, 16
+
+//Test 3
+//01400093    // ADDI x1, x0, 20      // x1 = 20
+//FFC08067    // JALR x0, -4(x1)       // 20 + (-4) = 16
+
+//00000013    // NOP
+//00000013    // NOP
+//01000193    // ADDI x3, x0, 16      // PC=16 → x3=16
+
+/// Test 2
+//00C00093    // ADDI x1, x0, 12      // x1 = 12
+//00408067    // JALR x0, 4(x1)       // target = 12 + 4 = 16
+
+//00000013    // NOP
+//00000013    // NOP
+//01000193    // ADDI x3, x0, 16      // PC=16 → x3 = 16
+/// Test1 
+//014000EF    // JAL  x1, 20       // PC=0  → PC=20, x1=4
+//00A00113    // ADDI x2, x0, 10   // SKIPPED
+//01400193    // ADDI x3, x0, 20   // SKIPPED
+//01E00213    // ADDI x4, x0, 30   // SKIPPED
+//02800293    // ADDI x5, x0, 40   // SKIPPED
+//00008067    // JALR x0, 0(x1)    // PC=20 → PC=4

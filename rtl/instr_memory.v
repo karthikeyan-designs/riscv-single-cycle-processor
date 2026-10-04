@@ -11,7 +11,7 @@ module instr_memory(
 
     // Initialize program
     initial begin
-         $readmemh("programs/j_type_test.hex",mem);
+         $readmemh("programs/i_jalr_type_test.hex",mem);
         
     end
 

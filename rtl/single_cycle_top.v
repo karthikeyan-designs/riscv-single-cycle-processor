@@ -26,7 +26,7 @@ module single_cycle_top(
 );
 wire [31:0] PC_target;
 wire pc_src;
-
+wire [31:0] result; // output from ALU
 
 wire memwrite; // control signal for memory write
 wire regwrite; // control signal for register write
@@ -46,11 +46,14 @@ wire signed [20:0] imm_j;
 wire branch; // control signal for branch instructions
 wire jump; // jump for jal 
 wire branch_taken; 
+wire [31:0] final_pc; // output from jalr_pc_mux
+wire jalr; // control signal for jalr
+wire [31:0] jalr_target; // correct implementation
 
 pc program_counter(
     .clk(clk),
     .reset(reset),
-    .pc_next(pc_next),
+    .pc_next(final_pc), // output from jalr_pc_mux
     .pc(pc)
 );
 pc_inc pc_incrementer(
@@ -68,6 +71,12 @@ pc_mux pc_mux_unit(
     .PC_target(PC_target),
     .pc_src(branch_taken),
     .PC_NEXT(pc_next)
+);
+jalr_pc_mux jalr_pc_mux_unit(
+    .jalr_target(jalr_target), // output from ALU (RESULT) rs1+immediate
+    .input_pc_next(pc_next),
+    .jalr_en(jalr), // control signal for jalr
+    .final_pc(final_pc)
 );
 instr_memory instr_mem(
     .pc_addr(pc), 
@@ -92,6 +101,7 @@ main_decoder main_dec(
     .memwrite(memwrite),
     .branch(branch),
     .jump(jump),
+    .jalr(jalr),
     .aluop(aluop)
 );
 alu_decoder alu_dec(
@@ -109,6 +119,7 @@ alu alu_unit(
     .zero(zero),//
     .result(result)
 );
+
 and_pc_src and_pc(
     .zero(zero), // Output from ALU (not connected in this snippet)
     .branch(branch), // Check if instruction is a branch
@@ -160,6 +171,7 @@ assign imm_j = {
     1'b0
 };
 
+assign jalr_target = result & 32'hFFFFFFFE;
 assign op = instr[6:0];
 assign funct3 = instr[14:12];
 assign funct7 = instr[31:25];
