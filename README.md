@@ -7,10 +7,9 @@ The processor is developed and verified incrementally using **Icarus Verilog** a
 ## Architecture
 
 ![RISC-V Single-Cycle Processor Architecture](single_cycle_riscv.png)
-
 ## Current Status
 
-**Work in progress.**
+The processor is currently implemented and tested for a subset of the RV32I instruction set.
 
 Currently implemented and tested:
 
@@ -19,8 +18,12 @@ Currently implemented and tested:
 * `LW` — Load Word
 * `SW` — Store Word
 * `BEQ` — Branch if Equal
-* Immediate generation for I-type, S-type, and B-type instructions
-* PC update logic for sequential execution and conditional branches
+* `JAL` — Jump and Link
+* `JALR` — Jump and Link Register
+* Immediate generation for I-type, S-type, B-type, and J-type instructions
+* PC update logic for sequential execution, branches, and jumps
+* Register write-back for ALU results, load data, and `PC + 4`
+* JALR target alignment by clearing bit 0 of the calculated target address
 * Basic event-driven testbench for processor-level verification
 
 The processor has been tested through simulation using Icarus Verilog, with waveforms inspected using GTKWave.
@@ -32,12 +35,15 @@ single_cycle_riscv/
 │
 ├── rtl/
 │   ├── alu.v
+│   ├── alu_decoder.v
 │   ├── and_pc_src.v
 │   ├── data_mem.v
 │   ├── extender.v
 │   ├── instr_memory.v
+│   ├── jalr_pc_mux.v
 │   ├── main_decoder.v
 │   ├── mux_srcb.v
+│   ├── or_pc_src.v
 │   ├── pc.v
 │   ├── pc_inc.v
 │   ├── pc_mux.v
@@ -63,7 +69,9 @@ single_cycle_riscv/
 │   ├── i_type_load_test.hex
 │   ├── i_type_test.hex
 │   ├── r_type_test.hex
-│   └── s_type_test.hex
+│   ├── s_type_test.hex
+│   ├── j_type_test.hex
+│   └── i_jalr_type_test.hex
 │
 ├── .gitignore
 └── README.md
@@ -90,19 +98,15 @@ Example simulation command:
 iverilog -o toptest.out rtl/*.v tb/event_driven_top_tb.v
 vvp toptest.out
 ```
-
-The generated simulation files such as `.vcd` and `.out` are excluded from the repository using `.gitignore`.
-
 ## Future Work
 
-Planned additions include:
+Planned improvements include:
 
-* `JAL`
-* `JALR`
 * Additional RV32I instructions
 * More comprehensive processor-level test programs
 * Improved self-checking testbench
 * Further verification of the complete datapath and control logic
+* Improved documentation and verification coverage
 
 ## Reference
 
