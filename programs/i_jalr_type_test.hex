@@ -1,7 +1,7 @@
 // Test 5
 
 00D00093    // ADDI x1, x0, 13       // PC=0  → x1=13
-00008167    // JALR x2, 0(x1)        // PC=4  → target=13 & ~1 = 12
+00008167    // JALR x2, 0(x1)        // PC=4  → target=13 & ~1 = 12 pc=pc+4=8
 00000013    // NOP                   // PC=8  → should be skipped
 02A00193    // ADDI x3, x0, 42       // PC=12 → should execute
 

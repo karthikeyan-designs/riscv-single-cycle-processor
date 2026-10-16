@@ -80,13 +80,32 @@ always #5 clk = ~clk; // clock with period of 10 time
 //     end
 // end
 
+/////self checking for jalr instruction/////////////////////
+always@(negedge clk) begin
+    if(reset ==0 && pc==32'd12) begin
+      
+if(uut.reg_file.registers[2] == 32'd8)
+    $display("JALR EXECUTED SUCCESSFULLY | time=%0t | PC=%d | x1=%d | x2=%d", $time, pc, uut.reg_file.registers[1], uut.reg_file.registers[2]);
+else
+    $display("JALR EXECUTION FAILED | time=%0t | PC=%d | x1=%d | x2=%d", $time, pc, uut.reg_file.registers[1], uut.reg_file.registers[2]);
+
+
+ if (instr == 32'h02A00193)
+            $display("[PASS] JALR destination instruction fetched");
+        else
+            $display("[FAIL] Unexpected instruction at PC=12");
+
+end
+end
+
+
 initial begin
     clk = 0;
     reset = 1;
- repeat(2) @(posedge clk);
+ repeat(2) @(negedge clk);
  reset=0;
 
-repeat(15) @(posedge clk);  
+repeat(15) @(negedge clk);  
 $finish;
 
 end
